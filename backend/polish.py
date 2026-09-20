@@ -7,7 +7,7 @@
 """
 from fastapi import APIRouter, HTTPException
 
-from backend import config, glm_client, prompts
+from backend import config, glm_client, prompts, storage
 from backend.models import PolishRequest, PolishResponse, PolishVersion
 
 router = APIRouter(prefix="/api", tags=["润色"])
@@ -60,7 +60,11 @@ def build_user_message(req: PolishRequest) -> str:
 
 @router.post("/polish", response_model=PolishResponse)
 def polish(req: PolishRequest) -> PolishResponse:
-    """润色一段话，返回 2~3 个不同语气的版本。"""
+    """润色一段话，返回 2~3 个不同语气的版本。
+
+    传入分析接口返回的 record_id，润色结果会合并到那条反思记录里；
+    不传则自动新建一条记录。
+    """
     auto_tone = req.tone is None
 
     if config.is_demo_mode():
@@ -70,9 +74,11 @@ def polish(req: PolishRequest) -> PolishResponse:
             tone_desc = prompts.POLISH_TONES.get(req.tone, req.tone)
             tone_name = tone_desc.split("：")[0]
             versions = [v for v in DEMO_VERSIONS if v["tone"] == tone_name] or DEMO_VERSIONS[:1]
+        record_id = _save_polish(req, versions)
         return PolishResponse(
             versions=[PolishVersion(**v) for v in versions],
             auto_tone=auto_tone,
+            record_id=record_id,
             demo=True,
         )
 
@@ -95,4 +101,16 @@ def polish(req: PolishRequest) -> PolishResponse:
     if not versions:
         raise HTTPException(status_code=502, detail="AI 没有返回可用的润色结果，请重试")
 
-    return PolishResponse(versions=versions, auto_tone=auto_tone, demo=False)
+    record_id = _save_polish(req, [v.model_dump() for v in versions])
+    return PolishResponse(
+        versions=versions, auto_tone=auto_tone, record_id=record_id, demo=False
+    )
+
+
+def _save_polish(req: PolishRequest, versions: list[dict]) -> int:
+    """保存润色结果：有 record_id 就合并到已有记录，否则新建一条。"""
+    polish_data = {"versions": versions, "auto_tone": req.tone is None}
+    if req.record_id is not None and storage.attach_polish(req.record_id, polish_data):
+        return req.record_id
+    # 没有 record_id（或记录不存在）时新建一条记录
+    return storage.save_record(original_text=req.text, polish=polish_data)

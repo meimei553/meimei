@@ -21,6 +21,7 @@ class AnalyzeResponse(BaseModel):
     comfort: str = Field(..., description="安慰的话")
     guiding_questions: list[str] = Field(..., description="引导式反思问题，邀请用户往深处想")
     summary: str = Field(..., description="一句话总结情绪核心")
+    record_id: int | None = Field(..., description="自动保存的记录 id，可用于后续关联润色结果")
     demo: bool = Field(..., description="是否为演示数据（未配置 API Key 时为 true）")
 
 
@@ -46,6 +47,11 @@ class PolishRequest(BaseModel):
         default=None,
         description="可选：多轮微调时，上一版的润色结果",
     )
+    record_id: int | None = Field(
+        default=None,
+        description="可选：分析接口返回的记录 id。传入后润色结果会合并到该记录；"
+                    "不传则新建一条记录",
+    )
 
 
 class PolishVersion(BaseModel):
@@ -60,4 +66,16 @@ class PolishResponse(BaseModel):
 
     versions: list[PolishVersion] = Field(..., description="2~3 个不同语气的润色版本")
     auto_tone: bool = Field(..., description="语气是否由 AI 自动判断组合（用户未指定时为 true）")
+    record_id: int | None = Field(..., description="本次润色保存到的记录 id")
     demo: bool = Field(..., description="是否为演示数据")
+
+
+class RecordOut(BaseModel):
+    """一条反思记录（分析 + 润色的完整存档）。"""
+
+    id: int
+    created_at: str = Field(..., description="创建时间（ISO 格式）")
+    scene: str | None
+    original_text: str
+    analysis: dict | None = Field(..., description="分析结果（同 /api/analyze 的返回）")
+    polish: dict | None = Field(..., description="润色结果（同 /api/polish 的返回）")

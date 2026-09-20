@@ -5,7 +5,7 @@
 """
 from fastapi import APIRouter, HTTPException
 
-from backend import config, glm_client, prompts
+from backend import config, glm_client, prompts, storage
 from backend.models import AnalyzeRequest, AnalyzeResponse
 
 router = APIRouter(prefix="/api", tags=["情绪分析"])
@@ -40,10 +40,17 @@ DEMO_RESULT = {
 
 @router.post("/analyze", response_model=AnalyzeResponse)
 def analyze(req: AnalyzeRequest) -> AnalyzeResponse:
-    """分析一段聊天记录或气话，返回情绪雷达图分数和温柔解读。"""
+    """分析一段聊天记录或气话，返回情绪雷达图分数和温柔解读。
+
+    每次分析都会自动保存为一条反思记录（返回 record_id），
+    之后调用 /api/polish 时带上 record_id 可以把润色结果合并进来。
+    """
     if config.is_demo_mode():
-        # 演示模式：直接返回内置示例，不调用 GLM
-        return AnalyzeResponse(**DEMO_RESULT, demo=True)
+        # 演示模式：返回内置示例，同样自动保存，方便体验完整流程
+        record_id = storage.save_record(
+            original_text=req.text, scene=req.scene, analysis=DEMO_RESULT
+        )
+        return AnalyzeResponse(**DEMO_RESULT, record_id=record_id, demo=True)
 
     # 组装发给 GLM 的消息：人设+分析要求 -> 用户内容
     user_content = req.text
@@ -65,12 +72,16 @@ def analyze(req: AnalyzeRequest) -> AnalyzeResponse:
         for dim in prompts.EMOTION_DIMENSIONS
     }
 
-    return AnalyzeResponse(
-        dimensions=dimensions,
-        my_analysis=result.get("my_analysis", ""),
-        other_analysis=result.get("other_analysis"),
-        comfort=result.get("comfort", ""),
-        guiding_questions=result.get("guiding_questions", []),
-        summary=result.get("summary", ""),
-        demo=False,
+    response_data = {
+        "dimensions": dimensions,
+        "my_analysis": result.get("my_analysis", ""),
+        "other_analysis": result.get("other_analysis"),
+        "comfort": result.get("comfort", ""),
+        "guiding_questions": result.get("guiding_questions", []),
+        "summary": result.get("summary", ""),
+    }
+    # 自动保存为反思记录
+    record_id = storage.save_record(
+        original_text=req.text, scene=req.scene, analysis=response_data
     )
+    return AnalyzeResponse(**response_data, record_id=record_id, demo=False)

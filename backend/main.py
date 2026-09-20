@@ -7,9 +7,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend import config
+from backend import config, storage
 from backend.analyze import router as analyze_router
 from backend.polish import router as polish_router
+from backend.records import router as records_router
 
 app = FastAPI(
     title="meimei 情绪分析 API",
@@ -29,6 +30,13 @@ app.add_middleware(
 # 注册各功能模块的路由
 app.include_router(analyze_router)
 app.include_router(polish_router)
+app.include_router(records_router)
+
+
+@app.on_event("startup")
+def startup() -> None:
+    """服务启动时初始化数据库表（不存在则创建）。"""
+    storage.init_db()
 
 
 @app.get("/api/health")
