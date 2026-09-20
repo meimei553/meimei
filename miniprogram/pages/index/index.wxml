@@ -1,0 +1,56 @@
+<!-- 最小骨架页面：只验证功能闭环，UI 设计二期再讨论 -->
+<view class="page">
+
+  <textarea
+    class="input"
+    placeholder="把聊天记录粘贴到这里，或者写下你想说的气话……"
+    value="{{text}}"
+    bindinput="onTextInput"
+    auto-height
+  />
+
+  <input
+    class="scene"
+    placeholder="场景（可选）：情侣 / 职场 / 家庭 / 朋友"
+    value="{{scene}}"
+    bindinput="onSceneInput"
+  />
+
+  <button class="btn" bindtap="onAnalyze" loading="{{loading}}">分析情绪</button>
+
+  <!-- 分析结果：雷达图二期用图表组件画，这里先用文字列出分数 -->
+  <view wx:if="{{analysis}}" class="card">
+    <view class="title">情绪雷达（文字版）</view>
+    <view wx:for="{{analysis.dimensions}}" wx:key="index" class="dim">
+      {{index}}：{{item}} 分
+    </view>
+
+    <view class="title">你为什么这样说</view>
+    <view class="para">{{analysis.my_analysis}}</view>
+
+    <view class="title" wx:if="{{analysis.other_analysis}}">对方可能在想什么</view>
+    <view class="para" wx:if="{{analysis.other_analysis}}">{{analysis.other_analysis}}</view>
+
+    <view class="title">抱抱你</view>
+    <view class="para">{{analysis.comfort}}</view>
+
+    <view class="title">往深处想一想</view>
+    <view wx:for="{{analysis.guiding_questions}}" wx:key="index" class="para">
+      · {{item}}
+    </view>
+
+    <button class="btn secondary" bindtap="onPolish" loading="{{loading}}">
+      帮我润色这句话
+    </button>
+  </view>
+
+  <!-- 润色结果 -->
+  <view wx:if="{{polish}}" class="card">
+    <view class="title">高情商版本（{{polish.auto_tone ? 'AI 自动组合语气' : '指定语气'}}）</view>
+    <view wx:for="{{polish.versions}}" wx:key="tone" class="version">
+      <view class="tone">【{{item.tone}}】</view>
+      <view class="para">{{item.text}}</view>
+    </view>
+  </view>
+
+</view>

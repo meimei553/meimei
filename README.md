@@ -34,8 +34,16 @@ uvicorn backend.main:app --reload
 
 ```
 backend/        Python 后端（FastAPI）
-miniprogram/    微信小程序前端（二期完善 UI）
+miniprogram/    微信小程序前端（当前为最小骨架，UI 设计二期再讨论）
 ```
+
+## 小程序联调（最小骨架）
+
+1. 先启动后端：`uvicorn backend.main:app --reload`
+2. 用微信开发者工具导入 `miniprogram/` 目录（AppID 在 project.config.json 里填）
+3. 开发者工具里勾选：详情 → 本地设置 → 不校验合法域名（仅开发期）
+4. 如果后端跑在电脑上、用手机预览，把 `miniprogram/app.js` 里的
+   `apiBase` 从 `127.0.0.1` 改成电脑的局域网 IP（如 `192.168.x.x`）
 
 ## 隐私说明
 

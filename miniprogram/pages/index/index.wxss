@@ -1,0 +1,59 @@
+/* 最小骨架样式：仅保证可读，UI 设计二期再讨论 */
+.page {
+  padding: 24rpx;
+}
+
+.input {
+  width: 100%;
+  min-height: 200rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.scene {
+  margin-top: 16rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+}
+
+.btn {
+  margin-top: 24rpx;
+  background: #4a90d9;
+  color: #fff;
+  border-radius: 12rpx;
+}
+
+.btn.secondary {
+  background: #7ab8f5;
+}
+
+.card {
+  margin-top: 32rpx;
+  border: 1rpx solid #eee;
+  border-radius: 12rpx;
+  padding: 24rpx;
+}
+
+.title {
+  font-weight: bold;
+  margin: 24rpx 0 12rpx;
+}
+
+.dim,
+.para {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 8rpx;
+}
+
+.version {
+  margin-bottom: 24rpx;
+}
+
+.tone {
+  color: #4a90d9;
+  margin-bottom: 8rpx;
+}

@@ -1,0 +1,12 @@
+{
+  "description": "meimei 情绪分析小程序（最小骨架）",
+  "appid": "请填入你的小程序AppID",
+  "compileType": "miniprogram",
+  "libVersion": "latest",
+  "setting": {
+    "es6": true,
+    "minified": true,
+    "urlCheck": false
+  },
+  "projectname": "meimei"
+}
