@@ -8,6 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend import config
+from backend.analyze import router as analyze_router
 
 app = FastAPI(
     title="meimei 情绪分析 API",
@@ -23,6 +24,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 注册各功能模块的路由
+app.include_router(analyze_router)
 
 
 @app.get("/api/health")
