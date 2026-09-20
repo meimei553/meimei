@@ -1,0 +1,10 @@
+# Web 框架：提供 REST API 接口
+fastapi==0.115.6
+# ASGI 服务器：运行 FastAPI 应用
+uvicorn[standard]==0.34.0
+# 智谱 GLM 官方 SDK（新包名为 zai-sdk）
+zai-sdk==0.2.3
+# 读取 .env 文件中的环境变量（如 API Key）
+python-dotenv==1.0.1
+# 数据校验（FastAPI 依赖，显式声明版本）
+pydantic==2.10.4
