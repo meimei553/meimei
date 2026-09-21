@@ -26,6 +26,9 @@ def chat(messages: list[dict], model: str, temperature: float = 0.7) -> str:
         model=model,
         messages=messages,
         temperature=temperature,
+        # 关闭深度思考模式：开着时一次分析要约 70 秒，关掉后大幅提速，
+        # 对情绪分析这类任务质量影响很小（验证实测）
+        thinking={"type": "disabled"},
     )
     return response.choices[0].message.content
 

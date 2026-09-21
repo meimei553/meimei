@@ -11,12 +11,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend import config, storage
+from backend.analyze import router as analyze_router
 
 app = FastAPI(
     title="meimei 情绪分析 API",
     description="私密的对话记录情绪分析工具：先理解情绪，再温柔润色。",
     version="0.1.0",
 )
+
+# 注册分枝路由（后续节点在此追加）
+app.include_router(analyze_router)
 
 # 开发期允许所有来源跨域访问（小程序开发者工具调试需要）；正式上线前收紧
 app.add_middleware(
