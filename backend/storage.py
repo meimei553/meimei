@@ -25,6 +25,23 @@ CREATE TABLE IF NOT EXISTS records (
 )
 """
 
+# 设置表（键值对：用户称呼等）
+_CREATE_SETTINGS_TABLE = """
+CREATE TABLE IF NOT EXISTS settings (
+    key TEXT PRIMARY KEY,
+    value TEXT
+)
+"""
+
+# 反馈表（用户反馈入口，决策 44）
+_CREATE_FEEDBACK_TABLE = """
+CREATE TABLE IF NOT EXISTS feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+    content TEXT NOT NULL
+)
+"""
+
 
 def _connect() -> sqlite3.Connection:
     """每次操作新建连接（sqlite3 连接不能跨线程共享，这样最省心）。"""
@@ -37,6 +54,41 @@ def init_db() -> None:
     """初始化数据库表（服务启动时调用一次）。"""
     with _connect() as conn:
         conn.execute(_CREATE_TABLE)
+        conn.execute(_CREATE_SETTINGS_TABLE)
+        conn.execute(_CREATE_FEEDBACK_TABLE)
+
+
+def count_records() -> int:
+    """记录总数（用于记录页的陪伴文案"第 N 次"）。"""
+    with _connect() as conn:
+        return conn.execute("SELECT COUNT(*) FROM records").fetchone()[0]
+
+
+def get_setting(key: str, default: str | None = None) -> str | None:
+    """读取设置项（如用户称呼），不存在时返回默认值。"""
+    with _connect() as conn:
+        row = conn.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone()
+    return row["value"] if row else default
+
+
+def set_setting(key: str, value: str) -> None:
+    """写入设置项（已存在则覆盖）。"""
+    with _connect() as conn:
+        conn.execute(
+            "INSERT INTO settings (key, value) VALUES (?, ?)"
+            " ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+            (key, value),
+        )
+
+
+def save_feedback(content: str) -> int:
+    """保存一条用户反馈，返回反馈 id。"""
+    with _connect() as conn:
+        cursor = conn.execute(
+            "INSERT INTO feedback (created_at, content) VALUES (?, ?)",
+            (datetime.now(timezone.utc).isoformat(), content),
+        )
+        return cursor.lastrowid
 
 
 def save_record(original_text: str, background: str | None = None) -> int:

@@ -46,6 +46,10 @@ def _build_context(record: dict) -> str:
             f"对方推测：{analysis.get('other_analysis', '')}\n"
             f"总结：{analysis.get('summary', '')}"
         )
+    # 称呼系统：用户设置过称呼时，对话里用这个称呼（决策 13）
+    nickname = storage.get_setting("user_nickname")
+    if nickname:
+        parts.append(f"【用户称呼】\n回应时请称呼用户为“{nickname}”")
     return "\n\n".join(parts)
 
 

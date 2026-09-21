@@ -14,6 +14,8 @@ from backend import config, storage
 from backend.analyze import router as analyze_router
 from backend.chat import router as chat_router
 from backend.polish import router as polish_router
+from backend.records import router as records_router
+from backend.settings import router as settings_router
 
 app = FastAPI(
     title="meimei 情绪分析 API",
@@ -25,6 +27,8 @@ app = FastAPI(
 app.include_router(analyze_router)
 app.include_router(chat_router)
 app.include_router(polish_router)
+app.include_router(records_router)
+app.include_router(settings_router)
 
 # 开发期允许所有来源跨域访问（小程序开发者工具调试需要）；正式上线前收紧
 app.add_middleware(

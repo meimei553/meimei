@@ -105,12 +105,16 @@ def _normalize_emotions(raw_emotions: list[dict]) -> list[dict]:
 
 
 def _build_user_message(req: AnalyzeRequest) -> str:
-    """组装发给 AI 的用户消息：内容 + 可选背景 + 可选猜想。"""
+    """组装发给 AI 的用户消息：内容 + 可选背景 + 可选猜想 + 用户称呼。"""
     parts = [f"【内容】\n{req.text}"]
     if req.background:
         parts.append(f"【背景】\n{req.background}")
     if req.guess:
         parts.append(f"【用户的情绪猜想】\n最主要情绪：{req.guess.emotion}；强度：{req.guess.intensity}")
+    # 称呼系统：用户设置过称呼时，AI 用这个称呼回应（决策 13）
+    nickname = storage.get_setting("user_nickname")
+    if nickname:
+        parts.append(f"【用户称呼】\n回应时请称呼用户为“{nickname}”")
     return "\n\n".join(parts)
 
 
