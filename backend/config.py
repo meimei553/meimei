@@ -31,11 +31,17 @@ MAX_INPUT_LENGTH: int = 5000
 CHAT_COMPRESS_THRESHOLD: int = 20
 
 
+# .env 模板里的占位符（未填入真实 Key 时视为未配置）
+KEY_PLACEHOLDER = "在这里填入你的APIKey"
+
+
 def is_demo_mode() -> bool:
     """判断当前是否处于演示模式（不真正调用 GLM，返回内置示例数据）。"""
     if DEMO_MODE == "on":
         return True
     if DEMO_MODE == "off":
         return False
-    # auto：没有配置 API Key 时自动进入演示模式
-    return not ZAI_API_KEY
+    # auto：未配置 Key、Key 还是占位符、或格式明显不对（真实 Key 格式为 id.secret）时进入演示模式
+    if not ZAI_API_KEY or ZAI_API_KEY == KEY_PLACEHOLDER:
+        return True
+    return "." not in ZAI_API_KEY
