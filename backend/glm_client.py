@@ -44,12 +44,25 @@ def _extract_json(text: str) -> dict:
 def chat_json(messages: list[dict], model: str, temperature: float = 0.3) -> dict:
     """调用 GLM 并把返回内容解析为 JSON 字典；失败时重试 1 次。
 
+    开启强制 JSON 模式（response_format）：对话场景下模型容易"聊嗨了"
+    直接输出散文，此参数保证返回合法 JSON（验证时抓获的真实问题）。
     免费模型输出长 JSON 时偶尔格式出错，重试一次能解决大部分偶发失败。
     """
+    # 延迟导入：演示模式下不需要 SDK
+    from zai import ZhipuAiClient
+
     last_error: Exception | None = None
     for attempt in range(2):
         try:
-            return _extract_json(chat(messages, model, temperature))
+            client = ZhipuAiClient(api_key=config.ZAI_API_KEY)
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                thinking={"type": "disabled"},
+                response_format={"type": "json_object"},
+            )
+            return _extract_json(response.choices[0].message.content)
         except Exception as exc:  # 解析失败或调用失败都重试一次
             last_error = exc
             if attempt == 0:
