@@ -1,0 +1,15 @@
+# 环境变量文件（含 API Key，绝不提交）
+.env
+
+# Python 缓存与虚拟环境
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# SQLite 数据库文件（含私密聊天记录，绝不提交）
+*.db
+*.sqlite3
+
+# 微信开发者工具本地文件
+miniprogram/node_modules/
