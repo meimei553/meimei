@@ -1,0 +1,62 @@
+<!-- 记录详情页：完整分析 + 对话历史 + 继续对话 -->
+<view class="page" wx:if="{{record}}">
+
+  <!-- 回看负面记录的温柔承接（决策 38） -->
+  <view wx:if="{{record.review_comfort}}" class="card comfort">{{record.review_comfort}}</view>
+
+  <!-- 原文与背景 -->
+  <view class="card">
+    <view class="title">当时的内容</view>
+    <view>{{record.original_text}}</view>
+    <view wx:if="{{record.background}}" class="muted">背景：{{record.background}}</view>
+  </view>
+
+  <!-- 分析结果 -->
+  <view class="card" wx:if="{{record.analysis}}">
+    <view class="title">情绪</view>
+    <view wx:for="{{record.analysis.emotions}}" wx:key="name" class="emotion-row">
+      <text class="emotion-name">{{item.name}}</text>
+      <text class="emotion-percent">{{item.percent}}%</text>
+      <text class="muted">{{item.intensity_text}}</text>
+    </view>
+    <view class="title">解读</view>
+    <view>{{record.analysis.my_analysis}}</view>
+    <view class="title" wx:if="{{record.analysis.review_advice}}">下次可以试试</view>
+    <view wx:if="{{record.analysis.review_advice}}">{{record.analysis.review_advice}}</view>
+  </view>
+
+  <!-- 润色结果 -->
+  <view class="card" wx:if="{{record.polish}}">
+    <view class="title">润色版本</view>
+    <view wx:for="{{record.polish.versions}}" wx:key="tone" class="polish-version">
+      <view class="polish-tone">【{{item.tone}}】</view>
+      <view>{{item.text}}</view>
+    </view>
+  </view>
+
+  <!-- 改分轨迹（决策 36：原分数保留，轨迹可见） -->
+  <view class="card" wx:if="{{record.score_revisions && record.score_revisions.length}}">
+    <view class="title">讨论后的调整</view>
+    <view wx:for="{{record.score_revisions}}" wx:key="index" class="muted">
+      {{item.dimension}}：{{item.old}} → {{item.new}}（{{item.reason}}）
+    </view>
+  </view>
+
+  <!-- 对话历史 -->
+  <view class="card">
+    <view class="title">我们的对话</view>
+    <view wx:if="{{!record.chat_history || !record.chat_history.length}}" class="muted">
+      还没有对话。想问什么就说，比如"你为什么这样分析？"
+    </view>
+    <view wx:for="{{record.chat_history}}" wx:key="index" class="chat-row {{item.role}}">
+      <view class="chat-bubble">{{item.content}}</view>
+    </view>
+  </view>
+
+  <!-- 对话输入 -->
+  <view class="chat-input-bar">
+    <input class="chat-input" value="{{chatInput}}" bindinput="onChatInput" placeholder="继续聊……" />
+    <button class="send-btn" bindtap="onSend" loading="{{sending}}">发送</button>
+  </view>
+
+</view>

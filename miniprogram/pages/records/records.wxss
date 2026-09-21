@@ -1,0 +1,64 @@
+.companion {
+  text-align: center;
+  color: #7a9cc6;
+  font-size: 24rpx;
+  margin: 24rpx;
+}
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  margin: 0 24rpx 16rpx;
+  gap: 16rpx;
+}
+
+.filter-input {
+  flex: 1;
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 16rpx 24rpx;
+  font-size: 26rpx;
+}
+
+.filter-btn {
+  background: #4a90d9;
+  color: #fff;
+  font-size: 26rpx;
+  border-radius: 12rpx;
+  padding: 0 32rpx;
+}
+
+.filter-btn.plain {
+  background: #fff;
+  color: #4a90d9;
+  border: 1rpx solid #4a90d9;
+}
+
+.empty {
+  text-align: center;
+  margin-top: 120rpx;
+}
+
+.record {
+  position: relative;
+}
+
+.record-text {
+  margin-bottom: 12rpx;
+}
+
+.record-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 24rpx;
+  right: 24rpx;
+  font-size: 24rpx;
+  color: #d96a6a;
+  background: none;
+  padding: 0;
+}

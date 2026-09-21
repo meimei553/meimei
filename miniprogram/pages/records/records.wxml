@@ -1,0 +1,32 @@
+<!-- 记录列表页 -->
+<view class="page">
+
+  <!-- 陪伴文案（决策 43：温和陪伴感，不是打卡压力） -->
+  <view wx:if="{{companion}}" class="companion">{{companion}}</view>
+
+  <!-- 情绪筛选 -->
+  <view class="filter-bar">
+    <input class="filter-input" placeholder="按情绪筛选，如：委屈" value="{{emotion}}" bindinput="onEmotionInput" />
+    <button class="filter-btn" bindtap="onSearch">筛选</button>
+    <button wx:if="{{emotion}}" class="filter-btn plain" bindtap="onClearFilter">清空</button>
+  </view>
+
+  <!-- 空状态引导（决策 63） -->
+  <view wx:if="{{!records.length}}" class="empty">
+    <view>还没有记录。</view>
+    <view class="muted">去首页开始第一次分析吧，我陪着你。</view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view wx:for="{{records}}" wx:key="id" class="card record" data-id="{{item.id}}" bindtap="toDetail">
+    <view class="record-text">{{item.original_text}}</view>
+    <view class="record-meta">
+      <text class="muted">{{item.created_at}}</text>
+      <text wx:if="{{item.analysis}}" class="muted">
+        {{item.analysis.summary}}
+      </text>
+    </view>
+    <button class="delete-btn" data-id="{{item.id}}" catchtap="onDelete">删除</button>
+  </view>
+
+</view>

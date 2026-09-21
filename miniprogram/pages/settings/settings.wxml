@@ -1,0 +1,22 @@
+<!-- 设置页 -->
+<view class="page">
+
+  <view class="card">
+    <view class="title">希望你被怎么称呼</view>
+    <view class="muted">之后分析和对话里，我会这样称呼你（我用"我"自称）</view>
+    <input class="field" placeholder="比如：小明" value="{{nickname}}" bindinput="onNicknameInput" />
+    <button class="btn-primary" bindtap="onSaveNickname" loading="{{saving}}">保存</button>
+  </view>
+
+  <view class="card">
+    <view class="title">反馈</view>
+    <view class="muted">哪里不对味、想要什么功能，都告诉我</view>
+    <textarea class="field area" placeholder="写下你的想法……" value="{{feedback}}" bindinput="onFeedbackInput" />
+    <button class="btn-primary" bindtap="onSendFeedback">提交反馈</button>
+  </view>
+
+  <view class="muted about">
+    本工具代码全部开源，数据不出你的设备，谁都可以查。
+  </view>
+
+</view>

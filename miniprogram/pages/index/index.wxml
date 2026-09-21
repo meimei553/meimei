@@ -1,0 +1,58 @@
+<!-- 首页：最小骨架，UI 美化二期统一讨论 -->
+<view class="page">
+
+  <!-- 首次打开：免责声明弹窗（必须同意才能继续） -->
+  <view wx:if="{{showDisclaimer}}" class="disclaimer-mask">
+    <view class="disclaimer-box">
+      <view class="title">使用前请知悉</view>
+      <scroll-view scroll-y class="disclaimer-text">{{disclaimerText}}</scroll-view>
+      <button class="btn-primary" bindtap="onAgree">同意并开始</button>
+    </view>
+  </view>
+
+  <view class="promise">这里没有评判，只有理解。 · 完全免费</view>
+
+  <!-- 内容框（绝对主角） -->
+  <textarea
+    class="input-text"
+    placeholder="把聊天记录或你想说的话放这里"
+    value="{{text}}"
+    bindinput="onTextInput"
+    auto-height
+  />
+
+  <!-- 背景框（可选，视觉上弱化） -->
+  <input
+    class="input-bg"
+    placeholder="（可选）这是在什么情况下发生的？说了背景，我会分析得更准"
+    value="{{background}}"
+    bindinput="onBackgroundInput"
+  />
+  <view class="muted hint">不填也没关系，我会自己试着理解。比如：和男朋友冷战第三天 / 季度考核前一周</view>
+
+  <!-- 情绪猜想（可选，可跳过） -->
+  <view class="guess-toggle" bindtap="toggleGuess">
+    {{showGuess ? "收起猜想 ▲" : "先猜猜自己的情绪？（可跳过）▼"}}
+  </view>
+  <view wx:if="{{showGuess}}" class="guess-area">
+    <input class="input-bg" placeholder="你觉得最主要的情绪是哪一个？" value="{{guessEmotion}}" bindinput="onGuessEmotionInput" />
+    <picker mode="selector" range="{{intensityOptions}}" value="{{guessIntensityIndex}}" bindchange="onGuessIntensityChange">
+      <view class="input-bg">强度：{{intensityOptions[guessIntensityIndex]}}（点我修改）</view>
+    </picker>
+    <view class="muted hint">猜错才有意思：猜错的地方，就是你没发现的自己。</view>
+  </view>
+
+  <!-- 开场白模板 -->
+  <view class="muted hint">不知道怎么说？点一个开头：</view>
+  <view class="templates">
+    <view wx:for="{{templates}}" wx:key="index" class="template" data-text="{{item}}" bindtap="onTemplate">{{item}}</view>
+  </view>
+
+  <!-- 主入口 + 次入口 + 示例 -->
+  <button class="btn-primary" bindtap="onAnalyze" loading="{{loading}}">
+    {{loading ? waitingCopy : "开始分析"}}
+  </button>
+  <button class="btn-plain" bindtap="toPolish">直接润色一句话</button>
+  <button class="btn-plain" bindtap="onExample">试试示例</button>
+
+</view>

@@ -1,0 +1,79 @@
+.page {
+  padding: 24rpx 0;
+}
+
+.promise {
+  text-align: center;
+  color: #7a9cc6;
+  font-size: 24rpx;
+  margin: 12rpx 0 24rpx;
+}
+
+.input-text {
+  width: auto;
+  min-height: 220rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin: 0 24rpx;
+}
+
+.input-bg {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin: 16rpx 24rpx 0;
+  font-size: 26rpx;
+}
+
+.hint {
+  margin: 8rpx 32rpx;
+}
+
+.guess-toggle {
+  color: #4a90d9;
+  font-size: 26rpx;
+  margin: 24rpx 32rpx 0;
+}
+
+.guess-area {
+  margin-top: 8rpx;
+}
+
+.templates {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 24rpx;
+}
+
+.template {
+  background: #eaf3fc;
+  color: #4a90d9;
+  border-radius: 30rpx;
+  padding: 10rpx 24rpx;
+  margin: 8rpx 12rpx 0 0;
+  font-size: 24rpx;
+}
+
+.disclaimer-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disclaimer-box {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  width: 80%;
+}
+
+.disclaimer-text {
+  max-height: 600rpx;
+  margin: 16rpx 0;
+  font-size: 26rpx;
+}

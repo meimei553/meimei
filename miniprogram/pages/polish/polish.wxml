@@ -1,0 +1,44 @@
+<!-- 润色页：独立入口 -->
+<view class="page">
+
+  <textarea
+    class="input-text"
+    placeholder="把想润色的话放这里（气话、感谢、道歉都可以）"
+    value="{{text}}"
+    bindinput="onTextInput"
+    auto-height
+  />
+
+  <input
+    class="field"
+    placeholder="（可选）背景：这句话是对谁说的、什么情况下"
+    value="{{background}}"
+    bindinput="onBackgroundInput"
+  />
+
+  <input
+    class="field"
+    placeholder="（可选）指定语气，如：温柔但坚定 / 幽默化解 / 简洁直接"
+    value="{{tone}}"
+    bindinput="onToneInput"
+  />
+
+  <button class="btn-primary" bindtap="onPolish" loading="{{loading}}">帮我润色</button>
+
+  <!-- 润色结果 -->
+  <view wx:if="{{versions.length}}" class="card">
+    <view class="title">润色版本</view>
+    <view wx:for="{{versions}}" wx:key="tone" class="version">
+      <view class="tone">【{{item.tone}}】</view>
+      <view>{{item.text}}</view>
+    </view>
+  </view>
+
+  <!-- 多轮微调 -->
+  <view wx:if="{{versions.length}}" class="card">
+    <view class="title">不对味？告诉我怎么调</view>
+    <input class="field" placeholder="比如：太正式了，像写公文" value="{{feedback}}" bindinput="onFeedbackInput" />
+    <button class="btn-plain" bindtap="onPolish" loading="{{loading}}">按意见重新润色</button>
+  </view>
+
+</view>

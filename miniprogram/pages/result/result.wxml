@@ -1,0 +1,59 @@
+<!-- 分析结果页：先情后理；雷达图二期用图表组件，这里文字版过渡 -->
+<view class="page" wx:if="{{analysis}}">
+
+  <!-- 第一眼：安慰回应（先情） -->
+  <view class="card comfort">{{analysis.comfort}}</view>
+
+  <!-- 猜想对比（用户猜了才显示） -->
+  <view wx:if="{{analysis.guess_comparison}}" class="card">
+    <view class="title">你猜的 vs 实际上的</view>
+    <view>{{analysis.guess_comparison}}</view>
+    <view class="muted">猜错才有意思：猜错的地方，就是你没发现的自己。</view>
+  </view>
+
+  <!-- 情绪雷达（文字版过渡，二期换图表） -->
+  <view class="card">
+    <view class="title">这段话里的情绪</view>
+    <view wx:for="{{analysis.emotions}}" wx:key="name" class="emotion-row">
+      <text class="emotion-name">{{item.name}}</text>
+      <text class="emotion-percent">{{item.percent}}%</text>
+      <text class="muted">{{item.intensity_text}}</text>
+    </view>
+    <view class="muted hint">占比是检测到的情绪中的相对比例，基于文字的估计。</view>
+  </view>
+
+  <!-- 后理：解读 -->
+  <view class="card">
+    <view class="title">你为什么这样说</view>
+    <view>{{analysis.my_analysis}}</view>
+  </view>
+
+  <view class="card" wx:if="{{analysis.other_analysis}}">
+    <view class="title">对方可能在想什么</view>
+    <view>{{analysis.other_analysis}}</view>
+  </view>
+
+  <view class="card" wx:if="{{analysis.key_sentences.length}}">
+    <view class="title">最关键的几句话</view>
+    <view wx:for="{{analysis.key_sentences}}" wx:key="sentence" class="key-sentence">
+      「{{item.sentence}}」<text class="muted"> —— {{item.note}}</text>
+    </view>
+  </view>
+
+  <!-- 引导提问：点击直接进对话 -->
+  <view class="card" wx:if="{{analysis.guiding_questions.length}}">
+    <view class="title">往深处想一想（点问题直接聊）</view>
+    <view wx:for="{{analysis.guiding_questions}}" wx:key="index" class="question" data-question="{{item}}" bindtap="onQuestion">
+      · {{item}}
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{analysis.review_advice}}">
+    <view class="title">下次可以试试</view>
+    <view>{{analysis.review_advice}}</view>
+  </view>
+
+  <view class="muted disclaimer">本内容由 AI 生成，仅供参考。本工具不做任何心理诊断。</view>
+
+  <button class="btn-primary" bindtap="toPolish">帮我润色这句话</button>
+</view>

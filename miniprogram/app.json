@@ -1,0 +1,24 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/result/result",
+    "pages/records/records",
+    "pages/record-detail/record-detail",
+    "pages/settings/settings",
+    "pages/polish/polish"
+  ],
+  "window": {
+    "navigationBarTitleText": "meimei",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/records/records", "text": "记录" },
+      { "pagePath": "pages/settings/settings", "text": "设置" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

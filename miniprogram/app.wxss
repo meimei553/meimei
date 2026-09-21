@@ -1,0 +1,40 @@
+/* 全局样式：最小骨架仅保证可读，UI 美化二期统一讨论 */
+page {
+  background: #fafafa;
+  color: #333;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin: 16rpx 24rpx;
+}
+
+.btn-primary {
+  background: #4a90d9;
+  color: #fff;
+  border-radius: 12rpx;
+  margin: 16rpx 24rpx;
+}
+
+.btn-plain {
+  background: #fff;
+  color: #4a90d9;
+  border: 1rpx solid #4a90d9;
+  border-radius: 12rpx;
+  margin: 8rpx 24rpx;
+  font-size: 26rpx;
+}
+
+.muted {
+  color: #999;
+  font-size: 24rpx;
+}
+
+.title {
+  font-weight: bold;
+  margin: 24rpx 0 12rpx;
+}
