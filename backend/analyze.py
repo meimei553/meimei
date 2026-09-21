@@ -158,7 +158,7 @@ def analyze(req: AnalyzeRequest) -> AnalyzeResponse:
     try:
         result = glm_client.chat_json(messages, model=config.MODEL_ANALYZE)
     except Exception as exc:
-        raise HTTPException(status_code=502, detail=f"妹妹刚刚走神了，我们再试一次好吗？（{exc}）") from exc
+        raise HTTPException(status_code=502, detail=f"我刚刚走神了，我们再试一次好吗？（{exc}）") from exc
 
     # AI 判断的隐晦危机信号（第二重保险）
     if result.get("crisis_detected"):
