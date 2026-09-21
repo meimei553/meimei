@@ -5,6 +5,8 @@ a rope for little but unwavering start
 
 合规文件：[隐私政策](PRIVACY.md) ｜ [用户协议与免责声明](USER_AGREEMENT.md) ｜ [开源协议 MIT](LICENSE)
 
+反馈与联系：3428741043@qq.com
+
 ## 快速开始
 
 ```bash
