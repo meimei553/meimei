@@ -3,6 +3,8 @@ a rope for little but unwavering start
 
 项目方案（决策记录）：[PLAN.md](PLAN.md) ｜ 总设计图（施工图）：[BLUEPRINT.md](BLUEPRINT.md)
 
+合规文件：[隐私政策](PRIVACY.md) ｜ [用户协议与免责声明](USER_AGREEMENT.md) ｜ [开源协议 MIT](LICENSE)
+
 ## 快速开始
 
 ```bash
