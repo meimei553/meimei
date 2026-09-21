@@ -91,6 +91,14 @@ def save_feedback(content: str) -> int:
         return cursor.lastrowid
 
 
+def list_feedback() -> list[dict]:
+    """查询全部反馈（最新在前）。"""
+    with _connect() as conn:
+        rows = conn.execute("SELECT * FROM feedback ORDER BY id DESC").fetchall()
+    return [{"id": row["id"], "created_at": row["created_at"], "content": row["content"]}
+            for row in rows]
+
+
 def save_record(original_text: str, background: str | None = None) -> int:
     """新建一条记录（只含原文和背景），返回记录 id。"""
     with _connect() as conn:

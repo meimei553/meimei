@@ -41,3 +41,12 @@ def submit_feedback(req: FeedbackIn) -> dict:
     """提交反馈，存进数据库（决策：设置页极简反馈框）。"""
     feedback_id = storage.save_feedback(req.content)
     return {"saved": True, "id": feedback_id, "thanks": "谢谢你的反馈，我会认真看的。"}
+
+
+@router.get("/feedback")
+def list_feedback() -> dict:
+    """查看全部反馈（最新在前）。
+
+    只有你能看：这是本地接口，数据不出设备（决策：不联网统计）。
+    """
+    return {"feedback": storage.list_feedback()}
