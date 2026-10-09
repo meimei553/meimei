@@ -6,5 +6,6 @@
 | --- | --- | --- |
 | 第 1 讲 | [01-pipeline-and-python.md](01-pipeline-and-python.md) | 整条流水线、Python 语法、鱼眼节点、`fisheye_tool_3.py` |
 | 第 2 讲 | [02-fisheye-processor-cpp.md](02-fisheye-processor-cpp.md) | 同一套算法的 C++ 版 `fisheye_processor.cpp`，以及相机节点在哪里调用它 |
+| 第 3 讲 | [03-camera-spin.md](03-camera-spin.md) | `spin()` 怎么按帧率采图、改时间戳，以及有人订阅才发布 |
 
 第 1 讲里有一处已更正：6 张小图排成 2 行 3 列，格子是满的。
