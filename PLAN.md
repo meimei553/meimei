@@ -446,3 +446,4 @@ flowchart TD
 2. 2026-09-21｜演示模式返回数据未过归一化函数，缺 intensity_text 字段 → 演示数据也走归一化 → 节点 1 验证时抓获
 3. 2026-09-21｜库外词日志用根日志器导致 SDK 的 HTTP 日志混入 → 改用独立日志器 → 节点 1 验证时抓获
 4. 2026-09-21｜对话场景下模型"聊嗨了"直接输出散文，不遵守 JSON 格式 → chat_json 开启 response_format 强制 JSON 模式 → 节点 2 验证时抓获
+5. 2026-10-09｜环境感知讲义把 6 张鱼眼小图说成 3 行 3 列、空出 3 格 → 按 `ceil(sqrt(6))=3` 列、`ceil(6/3)=2` 行，更正为 2 行 3 列且 6 格全满，写入 `docs/perception-lessons/` → 对照 `fisheye_tool_3.py` 与 `fisheye_processor.cpp` 的拼接循环发现口误
